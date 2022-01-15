@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Button } from "react-native";
 import Home from "../screens/Home";
+import Shop from "../screens/Shop";
 
 const SlippersNav = createNativeStackNavigator();
 
@@ -30,6 +31,7 @@ const Navigator = (props) => {
           ),
         }}
       />
+      <SlippersNav.Screen name="Shop" component={Shop} />
     </SlippersNav.Navigator>
   );
 };
