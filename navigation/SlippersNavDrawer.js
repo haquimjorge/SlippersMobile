@@ -4,6 +4,8 @@ import {
 } from "@react-navigation/drawer";
 import SlippersNavStack from "./SlippersNav";
 import Shop from "../screens/Shop";
+import SignIn from "../screens/SignIn"
+import SignUp from "../screens/SignUp";
 
 const SlippersNav = createDrawerNavigator();
 
@@ -20,6 +22,8 @@ const Navigator = (props) => {
         }}
       />
       <SlippersNav.Screen name="Shop" component={Shop} />
+      <SlippersNav.Screen name="Sign In" component={SignIn} />
+      <SlippersNav.Screen name="Sign Up" component={SignUp} />
     </SlippersNav.Navigator>
   );
 };
