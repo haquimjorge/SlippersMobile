@@ -1,9 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, ImageBackground, Image } from "react-native";
+import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-const CardShoes = ({shoes}) => {
+
+const CardShoes = ({shoes, navigation}) => {
+  
   console.log("shoes", {shoes})
+  console.log(navigation)
   let cartImage = require("../assets/carrito-de-compras.png");
   let eyeImage = require("../assets/eye-read.png");
 
@@ -15,11 +18,14 @@ const CardShoes = ({shoes}) => {
           return (
             <View key={shoe._id} style={styles.cardContainer}>
               <View style={styles.borderCard}>
+                <TouchableOpacity
+                onPress={() => navigation.navigate("Shoe",{shoeId : shoe._id})}>
                 <ImageBackground
                   style={styles.shoeImage}
                   resizeMode="cover"
                   source={{uri : shoe.image}}
                 ></ImageBackground>
+                </TouchableOpacity>
               </View>
               <Text style={styles.shoeName}>{shoe.name}</Text>
               <Text style={styles.shoePrice}>{shoe.price}</Text>
@@ -29,6 +35,7 @@ const CardShoes = ({shoes}) => {
                   <Text style={{fontWeight: "bold"}}>MORE INFO</Text>
                   <Image source={eyeImage} style={styles.iconsLogos}/>
                 </View>
+                
                 <View style={styles.infoCart}>
                   <Text style={{fontWeight: "bold"}}>ADD TO CART</Text>
                   <Image source={cartImage} style={styles.iconsLogos}/>

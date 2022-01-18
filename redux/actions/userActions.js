@@ -25,8 +25,23 @@ const userActions ={
       signUpUser:(user)=>{
           return async (dispatch)=>{
               let response = await axios.post("https://slipperswebapp.herokuapp.com/api/auth/signup",user)
-              if (response.data.response) {
-                localStorage.setItem("token", response.data.token);
+              if(response.data.error) {
+                ToastAndroid.showWithGravityAndOffset(
+                  `❌ ${response.data.error}`,
+                  ToastAndroid.SHORT,
+                  ToastAndroid.BOTTOM,
+                  35,
+                  60
+                )
+              }
+              if(response.data.message) {
+                ToastAndroid.showWithGravityAndOffset(
+                  `✅ ${response.data.message}`,
+                  ToastAndroid.SHORT,
+                  ToastAndroid.BOTTOM,
+                  35,
+                  60
+                )
               }
               dispatch({
                 type: "SAVE_USER",

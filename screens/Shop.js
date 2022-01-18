@@ -107,6 +107,7 @@ const Shop = (props) => {
                 ? props.shoes
                 : []
             }
+            navigation={props.navigation}
           />
         </ScrollView>
       </View>

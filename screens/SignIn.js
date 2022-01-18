@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import userActions from "../redux/actions/userActions";
 
 const SignIn = (props) => {
-  console.log("mis props", props);
+  // console.log("mis props", props);
   let signImage = require("../assets/sign-in.jpg");
   let logoImage = require("../assets/logo3.png");
   let loggedImage = require("../assets/logged.jpg");
@@ -34,31 +34,6 @@ const SignIn = (props) => {
       );
     } else {
       props.signInUser(form);
-      // try {
-      //   let response = await props.signInUser(form);
-      //   console.log("response",response)
-      //   console.log(form);
-      //   if (!props.user.success) {
-      //     ToastAndroid.showWithGravityAndOffset(
-      //       "⚠️ Invalid password or email",
-      //       ToastAndroid.SHORT,
-      //       ToastAndroid.BOTTOM,
-      //       25,
-      //       60
-      //     );
-      //   } else {
-      //     ToastAndroid.showWithGravityAndOffset(
-      //       "Welcome to slippers 👋! ",
-      //       ToastAndroid.SHORT,
-      //       ToastAndroid.BOTTOM,
-      //       25,
-      //       60
-      //     );
-      //   }
-      // } catch (error) {
-      //   console.log(error);
-      //   return false;
-      // }
     }
   };
 
@@ -209,7 +184,7 @@ const styles = StyleSheet.create({
     textShadowColor: "#ffffff",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 1,
-    backgroundColor: "black",
+    backgroundColor: "rgba(0,0,0,0.4)",
     padding: 10,
     width: "100%",
     textAlign: "center"
@@ -220,7 +195,7 @@ const styles = StyleSheet.create({
     textShadowColor: "#ffffff",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 1,
-    backgroundColor: "black",
+    backgroundColor: "rgba(0,0,0,0.4)",
     padding: 10,
     width: "100%",
     textAlign: "center"

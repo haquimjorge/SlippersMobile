@@ -14,13 +14,11 @@ import { connect } from "react-redux";
 import userActions from "../redux/actions/userActions";
 
 const SignUp = (props) => {
+  console.log("PROPS SIGN UP", props);
   let signImage = require("../assets/sign-in.jpg");
   let logoImage = require("../assets/logo3.png");
 
-  const genders = [
-      "Male",
-      "Female"
-  ]
+  const genders = ["Male", "Female"];
 
   const [form, setForm] = useState({
     name: "",
@@ -28,7 +26,7 @@ const SignUp = (props) => {
     email: "",
     password: "",
     gender: "",
-    photo: "",
+    image: "",
   });
 
   const handleChange = async () => {
@@ -37,7 +35,7 @@ const SignUp = (props) => {
       form.password === "" ||
       form.name === "" ||
       form.lastName === "" ||
-      form.photo === "" ||
+      form.image === "" ||
       form.gender === ""
     ) {
       ToastAndroid.showWithGravityAndOffset(
@@ -48,32 +46,17 @@ const SignUp = (props) => {
         60
       );
     } else {
-      try {
-        let res = await props.signInUser(form);
-        console.log(form);
-        if (!res.data.success) {
-          ToastAndroid.showWithGravityAndOffset(
-            "⚠️ Invalid password or email",
-            ToastAndroid.SHORT,
-            ToastAndroid.BOTTOM,
-            25,
-            60
-          );
-        } else {
-          ToastAndroid.showWithGravityAndOffset(
-            "Welcome to slippers 👋! ",
-            ToastAndroid.SHORT,
-            ToastAndroid.BOTTOM,
-            25,
-            60
-          );
-        }
-      } catch (error) {
-        console.log(error);
-        return false;
-      }
+      props.signUp(form)
     }
   };
+
+  if (props.user !== null) {
+    return (
+      <View style={styles.container}>
+        <Text>hola</Text>
+      </View>
+    );
+  }
 
   return (
     <>
@@ -91,16 +74,14 @@ const SignUp = (props) => {
                 style={styles.input}
                 placeholder="Name"
                 placeholderTextColor={"white"}
-                onChange={(e) =>
-                  setForm({ ...form, email: e.nativeEvent.text })
-                }
+                onChange={(e) => setForm({ ...form, name: e.nativeEvent.text })}
               />
               <TextInput
                 style={styles.input}
                 placeholder="Last Name"
                 placeholderTextColor={"white"}
                 onChange={(e) =>
-                  setForm({ ...form, password: e.nativeEvent.text })
+                  setForm({ ...form, lastName: e.nativeEvent.text })
                 }
               />
               <TextInput
@@ -119,14 +100,23 @@ const SignUp = (props) => {
                   setForm({ ...form, password: e.nativeEvent.text })
                 }
               />
-
+              <TextInput
+                style={styles.input}
+                placeholder="Profile image"
+                placeholderTextColor={"white"}
+                onChange={(e) =>
+                  setForm({ ...form, image: e.nativeEvent.text })
+                }
+              />
               <SelectDropdown
                 data={genders}
                 defaultButtonText={"Select your gender"}
                 buttonStyle={styles.dropDownBtn}
                 buttonTextStyle={styles.btnTexSty}
+                onSelect={(selectedItem) => {
+                  setForm({ ...form, gender: selectedItem });
+                }}
               />
-              
             </View>
 
             <TouchableOpacity
@@ -207,21 +197,28 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   dropDownBtn: {
-      borderRadius: 15,
-      backgroundColor: "rgba(0,0,0,0.7)",
-      marginTop: 10,
-      height: 50,
+    borderRadius: 15,
+    backgroundColor: "rgba(0,0,0,0.7)",
+    marginTop: 10,
+    height: 50,
     width: 250,
   },
   btnTexSty: {
-      color: "white",
-      fontSize: 15
-  }
-  
+    color: "white",
+    fontSize: 15,
+  },
 });
 
+const mapStateToProps = (state) => {
+  return {
+    user: state.userReducer.user,
+    error: state.userReducer.error,
+    success: state.userReducer.success,
+    message: state.userReducer.message,
+  };
+};
 const mapDispatchToProps = {
-  logIn: userActions.signInUser,
+  signUp: userActions.signUpUser,
 };
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
