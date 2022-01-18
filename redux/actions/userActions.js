@@ -1,4 +1,7 @@
 import axios from "axios";
+import {
+  ToastAndroid
+} from "react-native";
 
 const userActions ={
     googleLogin: (user) => {
@@ -12,6 +15,7 @@ const userActions ={
           }
           console.log(response)
     
+          
           dispatch({
             type: "SAVE_USER",
             payload: { info: response.data, loading: false },
@@ -20,7 +24,7 @@ const userActions ={
       },
       signUpUser:(user)=>{
           return async (dispatch)=>{
-              let response = await axios.post("http://localhost:4000/api/auth/signup",user)
+              let response = await axios.post("https://slipperswebapp.herokuapp.com/api/auth/signup",user)
               if (response.data.response) {
                 localStorage.setItem("token", response.data.token);
               }
@@ -33,11 +37,21 @@ const userActions ={
       signInUser: (user) => {
         return async (dispatch) => {
           let response = await axios.post(
-            "http://localhost:4000/api/auth/signin",user
+            "https://slipperswebapp.herokuapp.com/api/auth/signin",user
           );
-          if (response.data.response) {
-            localStorage.setItem("token", response.data.token);
+          console.log("action response",response)
+          if(response.data.error) {
+            ToastAndroid.showWithGravityAndOffset(
+              `response data error ${response.data.error}`,
+              ToastAndroid.SHORT,
+              ToastAndroid.BOTTOM,
+              35,
+              60
+            )
           }
+          // if (response.data.response) {
+          //   localStorage.setItem("token", response.data.token);
+          // }
           dispatch({
             type: "SAVE_USER",
             payload: { info: response.data, loading: false },
@@ -56,7 +70,7 @@ const userActions ={
           try {
             const token = localStorage.getItem("token");
             const user = await axios.get(
-              "http://localhost:4000/api/auth",
+              "https://slipperswebapp.herokuapp.com/api/auth",
               {
                 headers: { Authorization: "Bearer " + token },
               }
@@ -72,7 +86,7 @@ const userActions ={
       },
       verifyEmail : (uniqueString)=>{
           return async (dispatch)=>{
-              let response = await axios.get("http://localhost:4000/api/verify/"+uniqueString)
+              let response = await axios.get("https://slipperswebapp.herokuapp.com/api/verify/"+uniqueString)
               if (response.data.response) {
                 localStorage.setItem("token", response.data.token);
               }
@@ -86,7 +100,7 @@ const userActions ={
       addToCart : (cart, isAdded, product)=>{
         
         return async (dispatch)=>{
-          //await axios.put("http://localhost:4000/api/cart",{userId, isAdded, product})
+          //await axios.put("https://slipperswebapp.herokuapp.com/api/cart",{userId, isAdded, product})
           //.then(response=>{
           //  if(response.data.success)dispatch({type:"UPDATE", payload: user})
           //  return response.data.success

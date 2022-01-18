@@ -11,12 +11,12 @@ const globalStore = createStore(mainReducer, applyMiddleware(thunk));
 export default function App() {
   return (
     <>
-      <Provider store={globalStore}>
-        <StatusBar barStyle="light-content" backgroundColor="#11151f" />
-        <NavigationContainer>
+      <StatusBar barStyle="light-content" backgroundColor="#11151f" />
+      <NavigationContainer>
+        <Provider store={globalStore}>
           <Navigator />
-        </NavigationContainer>
-      </Provider>
-    </>
+        </Provider>
+      </NavigationContainer>
+      </>
   );
 }

@@ -13,8 +13,10 @@ import { connect } from "react-redux";
 import userActions from "../redux/actions/userActions";
 
 const SignIn = (props) => {
+  console.log("mis props", props);
   let signImage = require("../assets/sign-in.jpg");
   let logoImage = require("../assets/logo3.png");
+  let loggedImage = require("../assets/logged.jpg");
 
   const [form, setForm] = useState({
     email: "",
@@ -31,32 +33,61 @@ const SignIn = (props) => {
         60
       );
     } else {
-      try {
-        let res = await props.signInUser(form);
-        console.log(form);
-        if (!res.data.success) {
-          ToastAndroid.showWithGravityAndOffset(
-            "⚠️ Invalid password or email",
-            ToastAndroid.SHORT,
-            ToastAndroid.BOTTOM,
-            25,
-            60
-          );
-        } else {
-          ToastAndroid.showWithGravityAndOffset(
-            "Welcome to slippers 👋! ",
-            ToastAndroid.SHORT,
-            ToastAndroid.BOTTOM,
-            25,
-            60
-          );
-        }
-      } catch (error) {
-        console.log(error);
-        return false;
-      }
+      props.signInUser(form);
+      // try {
+      //   let response = await props.signInUser(form);
+      //   console.log("response",response)
+      //   console.log(form);
+      //   if (!props.user.success) {
+      //     ToastAndroid.showWithGravityAndOffset(
+      //       "⚠️ Invalid password or email",
+      //       ToastAndroid.SHORT,
+      //       ToastAndroid.BOTTOM,
+      //       25,
+      //       60
+      //     );
+      //   } else {
+      //     ToastAndroid.showWithGravityAndOffset(
+      //       "Welcome to slippers 👋! ",
+      //       ToastAndroid.SHORT,
+      //       ToastAndroid.BOTTOM,
+      //       25,
+      //       60
+      //     );
+      //   }
+      // } catch (error) {
+      //   console.log(error);
+      //   return false;
+      // }
     }
   };
+
+  if (props.user !== null) {
+    return (
+      <View style={styles.container}>
+        <ImageBackground
+          source={loggedImage}
+          resizeMode="cover"
+          style={styles.image}
+        >
+          <View style={styles.loggedContainer}>
+            <Text style={styles.textBack}>Welcome Back!</Text>
+            <Text style={styles.textUser}>{props.user.name}</Text>
+            <TouchableOpacity
+              onPress={() =>
+                props.navigation.navigate("Home")
+              }
+            >
+              <Text style={styles.callToAction}>BACK TO HOME</Text>
+
+            </TouchableOpacity>
+          </View>
+
+          
+        </ImageBackground>
+      </View>
+    );
+  }
 
   return (
     <>
@@ -165,10 +196,52 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
   },
+  loggedContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.4)",
+    
+  },
+  textBack: {
+    fontSize: 50,
+    color: "white",
+    textShadowColor: "#ffffff",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
+    backgroundColor: "black",
+    padding: 10,
+    width: "100%",
+    textAlign: "center"
+  },
+  textUser: {
+    fontSize: 45,
+    color: "white",
+    textShadowColor: "#ffffff",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
+    backgroundColor: "black",
+    padding: 10,
+    width: "100%",
+    textAlign: "center"
+  },
+  callToAction: {
+    backgroundColor: "white",
+    padding: 10,
+    marginTop: 30,
+    fontSize: 30,
+    borderRadius: 15,
+  }
 });
 
-const mapDispatchToProps = {
-  logIn: userActions.signInUser,
+const mapStateToProps = (state) => {
+  return {
+    user: state.userReducer.user,
+  };
 };
 
-export default connect(null, mapDispatchToProps)(SignIn);
+const mapDispatchToProps = {
+  signInUser: userActions.signInUser,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
