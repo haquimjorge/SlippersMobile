@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import { connect } from "react-redux";
@@ -13,6 +14,8 @@ import userActions from "../redux/actions/userActions";
 
 const Shoe = (props) => {
   console.log(props);
+  const cartImage = require("../assets/carrito-de-compras.png");
+
   useEffect(() => {
     props.getOneShoe(props.route.params.shoeId);
   }, []);
@@ -24,13 +27,14 @@ const Shoe = (props) => {
 
   const [form, setForm] = useState({
     color: "",
-    size: ""
+    size: "",
   });
 
-  // console.log(props.oneShoe);
-  // useEffect(() => {
-  //   console.log(props.cart);
-  // }, [props.cart]);
+  
+  useEffect(() => {
+    console.log(props.cart);
+  }, [props.cart]);
+
   return (
     <>
       <View style={styles.container}>
@@ -66,8 +70,8 @@ const Shoe = (props) => {
               Stock: {props.oneShoe.generalStock}
             </Text>
             <View style={styles.selectContainer}>
-            <SelectDropdown
-                data={props.oneShoe.variations.map((v) => v.color)}
+              <SelectDropdown
+                data={props.oneShoe.variations && props.oneShoe.variations.map((v) => v.color)}
                 defaultButtonText={"Choose your color"}
                 buttonStyle={styles.dropDownBtn}
                 buttonTextStyle={styles.btnTexSty}
@@ -77,7 +81,7 @@ const Shoe = (props) => {
                 buttonStyle={styles.selectForm}
               />
               <SelectDropdown
-                data={props.oneShoe.variations.map((v) => v.size)}
+                data={props.oneShoe.variations && props.oneShoe.variations.map((v) => v.size)}
                 defaultButtonText={"Choose your size"}
                 buttonStyle={styles.dropDownBtn}
                 buttonTextStyle={styles.btnTexSty}
@@ -86,7 +90,22 @@ const Shoe = (props) => {
                 }}
                 buttonStyle={styles.selectForm}
               />
-              </View>
+            </View>
+
+            <View style={styles.addCartCont}>
+              <TouchableOpacity
+                onPress={() => props.addToCart(props.cart, true, props.oneShoe)}
+              >
+                <Text style={styles.cartText}>ADD TO CART</Text>
+                <View style={styles.cartImgCont}>
+                <ImageBackground
+                  style={styles.cartImg}
+                  resizeMode="cover"
+                  source={cartImage}
+                ></ImageBackground>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
       </View>
@@ -101,8 +120,8 @@ const styles = StyleSheet.create({
   },
   shoeImage: {
     flex: 1,
-    height: 350,
-    width: 350,
+    height: 300,
+    width: 300,
   },
   shoeImageContainer: {
     flex: 1,
@@ -137,16 +156,36 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-  selectContainer:{
+  selectContainer: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-around",
     alignItems: "center",
-    marginTop: 20
+    marginTop: 20,
+    flexDirection: "row",
   },
   selectForm: {
     marginTop: 10,
     borderRadius: 10,
     backgroundColor: "rgba(0,0,0,0.2)",
+    width: 170,
+  },
+  addCartCont: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 30,
+  },
+  cartImg: {
+    width: 35,
+    height: 35,
+  },
+  cartText: {
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  cartImgCont:{
+    flex: 1,
+    alignItems: "center"
   }
 });
 

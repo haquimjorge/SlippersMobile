@@ -57,10 +57,19 @@ const userActions ={
           console.log("action response",response)
           if(response.data.error) {
             ToastAndroid.showWithGravityAndOffset(
-              `response data error ${response.data.error}`,
+              `❌ ${response.data.error}`,
               ToastAndroid.SHORT,
               ToastAndroid.BOTTOM,
-              35,
+              55,
+              60
+            )
+          }
+          if(response.data.success){
+            ToastAndroid.showWithGravityAndOffset(
+              `👞 Welcome to slippers ${response.data.response.name}!`,
+              ToastAndroid.SHORT,
+              ToastAndroid.BOTTOM,
+              55,
               60
             )
           }
@@ -75,7 +84,7 @@ const userActions ={
       },
       logOut: () => {
         return (dispatch) => {
-          localStorage.clear();
+          // localStorage.clear();
           alert("Logging out...")
           dispatch({ type: "LOG_OUT", payload: {} });
         };
@@ -112,24 +121,56 @@ const userActions ={
     
           }
       },
-      addToCart : (cart, isAdded, product)=>{
-        
-        return async (dispatch)=>{
-          //await axios.put("https://slipperswebapp.herokuapp.com/api/cart",{userId, isAdded, product})
-          //.then(response=>{
-          //  if(response.data.success)dispatch({type:"UPDATE", payload: user})
-          //  return response.data.success
-          //}).catch(err=>console.error(err))
-          let newCart = [...cart] 
-          if(isAdded){
-            newCart.push(product)
-            dispatch({type:"ADD_PRODUCT", payload: newCart})
-          }
-          else{
-            newCart = newCart.filter(element => product !== element)
-            dispatch({type:"DELETE_PRODUCT", payload: newCart})
-        }
+      addToCart: (cart, isAdded, product) => {
 
+        return async (dispatch) => {
+    
+          let newCart = [...cart]
+          if (isAdded) {
+            ToastAndroid.showWithGravityAndOffset(
+              `🛒 ${product.name} Added to Cart!`,
+              ToastAndroid.SHORT,
+              ToastAndroid.BOTTOM,
+              55,
+              60
+            )
+            // if (!product.quantity && !cart.filter((shoe) => shoe._id === product._id).length) {
+            //   product.quantity = 1
+            //   newCart.push(product)
+            // }
+            // else {
+            //   product.quantity += 1
+            // }
+            let newProduct = cart.filter(shoe=>shoe._id===product._id)
+            if(newProduct.length){
+                cart.map(shoe=>{
+                    return((shoe._id===product._id)&&(shoe.quantity+=1))
+                })
+            }
+            else{
+              product.quantity?product.quantity+=1:product.quantity=1
+                newCart.push(product)
+            }
+            dispatch({ type: "ADD_PRODUCT", payload: newCart })
+          }
+          else {
+            ToastAndroid.showWithGravityAndOffset(
+              `❌ ${product.name} Removed!`,
+              ToastAndroid.SHORT,
+              ToastAndroid.BOTTOM,
+              55,
+              60
+            )
+            product.quantity -= 1
+            if (product.quantity < 1) {
+    
+              newCart = newCart.filter(element => product._id !== element._id)
+            }
+    
+    
+            dispatch({ type: "DELETE_PRODUCT", payload: newCart })
+          }
+    
         }
       }
 }

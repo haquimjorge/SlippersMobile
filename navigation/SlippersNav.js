@@ -5,6 +5,8 @@ import Shop from "../screens/Shop";
 import SignIn from "../screens/SignIn";
 import SignUp from "../screens/SignUp";
 import Shoe from "../screens/Shoe"
+import Cart from "../screens/Cart"
+import SignOut from "../screens/SignOut";
 
 const SlippersNav = createNativeStackNavigator();
 
@@ -37,7 +39,9 @@ const Navigator = (props) => {
       <SlippersNav.Screen name="Shop" component={Shop} />
       <SlippersNav.Screen name="Sign In" component={SignIn} />
       <SlippersNav.Screen name="Sign Up" component={SignUp} />
+      <SlippersNav.Screen name="Sign Out" component={SignOut} />
       <SlippersNav.Screen name="Shoe" component={Shoe} />
+      <SlippersNav.Screen name="Cart" component={Cart} />
     </SlippersNav.Navigator>
   );
 };

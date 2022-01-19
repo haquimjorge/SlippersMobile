@@ -35,6 +35,14 @@ const Home = (props) => {
           </ImageBackground>
         </View>
         <CarouselShoes/>
+        <TouchableOpacity
+              onPress={() =>
+                props.navigation.navigate("Shop")
+              }
+            >
+              <Text style={styles.callToAction}>SHOP NOW!</Text>
+
+            </TouchableOpacity>
         <View style={styles.container}>
           <ImageBackground
             source={subHeroImage}
@@ -124,6 +132,16 @@ const styles = StyleSheet.create({
     marginRight: 10,
     backgroundColor: "rgba(53,53,73,0.7)",
     padding: 10
+  },
+  callToAction: {
+    backgroundColor: "black",
+    padding: 10,
+    marginTop: 30,
+    fontSize: 30,
+    borderRadius: 15,
+    alignSelf: "center",
+    color: "white",
+    marginBottom: 20
   }
 });
 
