@@ -8,7 +8,7 @@ el CheckOut. También, los administradores pueden gestionar la tienda, posteando
 
 # Demo 🖥
 
-Pueden ver la demo de la página visitando:  <a href="https://youtube.com/" target="_blank">slippers</a> 
+Pueden ver la demo de la página visitando:  <a href="https://www.youtube.com/watch?v=bHJ1RM3k9zE" target="_blank">slippers</a> 
  
 ##
 
