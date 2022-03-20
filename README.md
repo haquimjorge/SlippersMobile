@@ -1,6 +1,6 @@
 # slippers Mobile 👞
 
-slippers Mobile es la versión para dispositivos móviles de nuestro proyecto final en el Bootcamp Full Stack MERN & Mobile Apps. Es una App Mobile que funciona 
+slippers Mobile es la versión para dispositivos móviles de slippers Web App. Es una App Mobile que funciona 
 como E-Commerce para una tienda de zapatos. Los usuarios pueden registrarse, visualizar los productos en oferta, agregarlos al carrito, y luego comprarlos en
 el CheckOut. También, los administradores pueden gestionar la tienda, posteando, eliminando, y editando productos y categorías. 
 La App Mobile consume el backend realizado para la Web App.
